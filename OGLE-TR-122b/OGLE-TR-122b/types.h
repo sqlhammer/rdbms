@@ -1,11 +1,10 @@
 static class Types
 {
 public:
-	Types() {};
-	~Types() {};
 
 	enum StatementType
 	{
+		UNKNOWN,
 		STATEMENT_INSERT,
 		STATEMENT_SELECT,
 		STATEMENT_DELETE,

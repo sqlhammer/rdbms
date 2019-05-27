@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="codegenerator.h" />
+    <ClInclude Include="helper.h" />
+    <ClInclude Include="Statement.h" />
     <ClInclude Include="userinterface.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="results.h" />

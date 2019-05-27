@@ -4,10 +4,13 @@
 #include "pch.h"
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <algorithm>
 
+#include "helper.h"
 #include "results.h"
 #include "types.h"
+#include "Statement.h"
 #include "parser.h"
 #include "userinterface.h"
 
@@ -19,5 +22,4 @@ int main()
 {
 	UserInterface::print_header(version);
 	UserInterface::REPL();
-
 }

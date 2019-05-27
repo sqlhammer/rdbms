@@ -6,7 +6,7 @@ static class UserInterface
 public:
 	UserInterface() {};
 	~UserInterface() {};
-
+	
 	static void print_header(string version)
 	{
 		cout << "Welcome to project OGLE-TR-112b (OGLE for short)." << endl;

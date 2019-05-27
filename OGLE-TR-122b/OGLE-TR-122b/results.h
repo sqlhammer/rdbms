@@ -1,19 +1,21 @@
-static class Results
+
+enum class MetaCommandResult
 {
-public:
-	/*Results() {};
-	~Results() {};*/
-
-	enum MetaCommandResult
-	{
-		META_COMMAND_SUCCESS,
-		META_UNRECOGNIZED_COMMAND
-	};
-
-	enum SQLCommandResult
-	{
-		SQL_COMMAND_SUCCESS,
-		SQL_UNRECOGNIZED_COMMAND
-	};
+	UNKOWN,
+	META_COMMAND_SUCCESS,
+	META_UNRECOGNIZED_COMMAND
 };
 
+enum class SQLCommandResult
+{
+	UNKOWN,
+	SQL_COMMAND_SUCCESS,
+	SQL_UNRECOGNIZED_COMMAND
+};
+
+enum class PrepareResult
+{
+	UNKOWN,
+	PREPARE_STATEMENT_SUCCESS,
+	PREPARE_UNRECOGNIZED_STATEMENT
+};
