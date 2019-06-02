@@ -1,17 +1,22 @@
 
 using namespace std;
 
-static class Helper
+static class Global
 {
 public:
-	Helper() {};
-	~Helper() {};
+	Global() {};
+	~Global() {};
 
-	static const int max_message_length = 100;
+	static const int MAX_MESSAGE_LENGTH = 100;
+
+	//BEGIN table sizing
+	static const int TABLE_MAX_PAGES = 100;
+	static const int PAGE_SIZE = 8192; //8 KB
+	//END table sizing
 
 	static string truncate_message(string &input)
 	{
-		return input.substr(0, max_message_length);
+		return input.substr(0, MAX_MESSAGE_LENGTH);
 	}
 
 	template <typename Enumeration>

@@ -16,7 +16,7 @@ public:
 		cout << "Execute \".help\" for command information." << endl << endl << endl;
 	}
 
-	static void REPL()
+	static void REPL(Table* table)
 	{
 		//read execute print loop
 		//used for all user interactions and command execution
@@ -26,7 +26,7 @@ public:
 			string input = "";
 			print_prompt();
 			read_input(input);
-			Parser::parse_execute(input);
+			Parser::parse_execute(&input, table);
 		}
 	}
 

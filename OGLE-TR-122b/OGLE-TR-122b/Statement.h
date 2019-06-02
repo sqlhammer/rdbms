@@ -8,5 +8,6 @@ public:
 	~Statement() {};
 
 	Types::StatementType type;
+	Row row;
 	string text;
 };

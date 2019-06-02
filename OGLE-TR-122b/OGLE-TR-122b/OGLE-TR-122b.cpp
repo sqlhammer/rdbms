@@ -7,12 +7,16 @@
 #include <cstring>
 #include <algorithm>
 
-#include "helper.h"
+#include "global.h"
 #include "results.h"
 #include "types.h"
+#include "Row.h"
 #include "Statement.h"
+#include "Table.h"
 #include "parser.h"
 #include "userinterface.h"
+#include "pager.h"
+#include "btree.h"
 
 using namespace std;
 
@@ -20,6 +24,8 @@ const string version = "0.1";
 
 int main()
 {
+	Table t;
+	
 	UserInterface::print_header(version);
-	UserInterface::REPL();
+	UserInterface::REPL(&t);
 }
