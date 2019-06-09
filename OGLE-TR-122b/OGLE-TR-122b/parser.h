@@ -130,15 +130,31 @@ public:
 		return ExecuteResult::EXECUTE_SUCCESS;
 	}
 
-	static ExecuteResult execute_select(Statement* statement, Table* table) {
-		Row row;
+	static ExecuteResult execute_select(Statement* statement, Table* table) 
+	{
+		Row* rows = get_rows_for_select(statement, table);
+
 		for (uint32_t i = 0; i < table->number_of_rows; i++)
 		{
-			(statement->row).deserialize_row((char*)row_slot(table, i), &row);
-			(statement->row).print_row(&row);
+			(statement->row).print_row(&rows[i]);
 		}
 
+		delete[] rows;
+
 		return ExecuteResult::EXECUTE_SUCCESS;
+	}
+
+	static Row* get_rows_for_select(Statement* statement, Table* table)
+	{
+		Row* rows = NULL;
+		rows = new Row[table->number_of_rows];
+
+		for (uint32_t i = 0; i < table->number_of_rows; i++)
+		{
+			(statement->row).deserialize_row((char*)row_slot(table, i), &rows[i]);
+		}
+
+		return rows;
 	}
 
 	static PrepareResult prepare_sql_statement(Statement* statement)
@@ -152,13 +168,13 @@ public:
 		{
 			statement->type = Types::STATEMENT_INSERT;
 
-			int args_assigned = sscanf
+			int args_assigned = sscanf_s
 				(
 					statement->text.c_str(), 
 					"insert %d %s %s", 
 					&(statement->row.id),
-					statement->row.username, 
-					statement->row.email
+					(statement->row.username), _countof(statement->row.username),
+					(statement->row.email), _countof(statement->row.email)
 				);
 
 			if (args_assigned < 3) 

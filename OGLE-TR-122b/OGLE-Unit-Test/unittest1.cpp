@@ -55,14 +55,91 @@ namespace OGLEUnitTest
 			statement.text = "select";
 			statement.type = Types::STATEMENT_SELECT;
 
+			Row* rows = NULL;
+			rows = new Row[table.number_of_rows];
+
 			//Execute
-			ExecuteResult result = Parser::execute_select(&statement, &table);
+			rows = Parser::get_rows_for_select(&statement, &table);
 
 			//Assert
+			Assert::AreEqual(rows[0].id,1);
+			Assert::AreEqual(rows[0].username, "str1");
+			Assert::AreEqual(rows[0].email, "str2");
+		}
+
+		TEST_METHOD(table_full)
+		{
+			//Setup
 			Global g;
-			int enum_int = g.as_integer(ExecuteResult::EXECUTE_SUCCESS);
-			int result_int = g.as_integer(result);
-			Assert::AreEqual(result_int,enum_int);
+			Table table;
+			int rows_to_insert = 2801;
+
+			Statement statement;
+			statement.text = "insert 1 str1 str2";
+			statement.type = Types::STATEMENT_INSERT;
+			
+			ExecuteResult result;
+			int int_expected = g.as_integer(ExecuteResult::EXECUTE_TABLE_FULL);
+			int int_result = 0;
+			
+			//Execute
+			for (int i = 0; i < rows_to_insert; i++)
+			{
+				result = Parser::execute_statement(&statement, &table);
+				int_result = g.as_integer(result);
+
+				if (int_result == int_expected)
+				{
+					break;
+				}
+			}
+
+			//Assert			
+			Assert::AreEqual(int_result, int_expected);
+		}
+
+		TEST_METHOD(insert_correct_column_lengths)
+		{
+			//Setup
+			Global g;
+			Table table;
+
+			Statement statement;
+			statement.text = "insert 1 " + string(statement.row.COLUMN_USERNAME_SIZE, 'a') + " " + string(statement.row.COLUMN_USERNAME_SIZE, 'a');
+			statement.type = Types::STATEMENT_INSERT;
+
+			ExecuteResult result;
+			int int_expected = g.as_integer(ExecuteResult::EXECUTE_SUCCESS);
+			int int_result = 0;
+
+			//Execute
+			result = Parser::execute_statement(&statement, &table);
+
+			//Assert			
+			int_result = g.as_integer(result);
+			Assert::AreEqual(int_result, int_expected);
+		}
+
+		TEST_METHOD(insert_incorrect_column_lengths)
+		{
+			//Setup
+			Global g;
+			Table table;
+
+			Statement statement;
+			statement.text = "insert 1 " + string(statement.row.COLUMN_USERNAME_SIZE + 1, 'a') + " " + string(statement.row.COLUMN_USERNAME_SIZE + 1, 'a');
+			statement.type = Types::STATEMENT_INSERT;
+
+			PrepareResult result;
+			int int_expected = g.as_integer(PrepareResult::PREPARE_SYNTAX_ERROR);
+			int int_result = 0;
+
+			//Execute
+			result = Parser::prepare_sql_statement(&statement);
+
+			//Assert			
+			int_result = g.as_integer(result);
+			Assert::AreEqual(int_result, int_expected);
 		}
 
 	};
